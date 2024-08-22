@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: java-setup
+  cache:
+    type: redis
+    redis:
+      # 24 hour TTL unless otherwise overwritten
+      time-to-live: 86400
+  security:
+    oauth2:
+      client:
+        registration:
+          apigee-x:
+            authorization-grant-type: client_credentials
+            client-id: ${sm://client_id}
+            client-secret: ${sm://client_secret}
+            provider: apigee-x
+          apigee-edge:
+            authorization-grant-type: client_credentials
+            client-id: ${sm://client_id}
+            client-secret: ${sm://client_secret}
+            provider: apigee-edge
+        provider:
+          apigee-x:
+            token-uri: ${example.apigee_x_url}/oauth/v1/token
+          apigee-edge:
+            token-uri: ${example.apigee_edge_url}/oauth/v1/token
+springdoc:
+  swagger-ui:
+    urls-primary-name: Example Service
+    try-it-out-enabled: true
+    display-request-duration: true
+  api-docs:
+    path: /api-docs
+management:
+  endpoint:
+    env:
+      keys-to-sanitize: .*pass.*,secret,key,auth,token,.*credentials.*,vcap_services,sun.java.command
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /private/actuator
+      exposure:
+        include: info, health, mappings, loggers, env, threaddump, configprops, heapdump
+  health:
+    vault:
+      enabled: false
+mongo:
+  certificate: ${sm://sample_mongo}
+  displayInfo:
+    collection:
+      name: DisplayInfo
+pubsub:
+  publish:
+    example:
+      processed: example-event-processed
+  subscribe:
+    example:
+      name: example-event-processed
+      dlq-name: exmaple-event-processed-dlq
+caching:
+  specs:
+    displayInfo:
+      expireTime: 60

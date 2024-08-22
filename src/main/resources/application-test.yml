@@ -1,0 +1,23 @@
+example:
+  apigee_x_url: https://api-test1.x.cloud.example.com
+  apigee_edge_url: https://api-qa.example.com
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/Example_TEST1
+      authentication-database: admin
+      username: example_test
+      password: password
+      database: Example_TEST1
+      custom:
+        write-concern: ACKNOWLEDGED
+        read-concern: SECONDARY_PREFERRED
+        connection-timeout: 3000
+        read-timeout: 60000
+        connections-per-host: 100
+#      uri: mongodb://localhost:27017,localhost:27018/Example_TEST1
+#      uri: mongodb+srv://example.mongodb.net/Example_TEST1?authSource=$external&authMechanism=MONGODB-X509&retryWrites=true&w=majority&maxPoolSize=20&connectTimeoutMS=5000&socketTimeoutMS=10000
+webservice:
+  connection:
+    timeout: 30
+  environment: test
